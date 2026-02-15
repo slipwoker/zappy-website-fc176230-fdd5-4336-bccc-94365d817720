@@ -1,0 +1,667 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שירותים - נגיעת צבע</title>
+  <meta name="description" content="שירותים - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta name="keywords" content="צבעי, חנות צבעים לשיפוצים ביתיים, צבעי קירות איכוtiים למקצוענים, איזה צבע לבחור לבית חדש">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="שירותים - נגיעת צבע">
+  <meta property="og:description" content="שירותים - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="שירותים - נגיעת צבע">
+  <meta name="twitter:description" content="שירותים - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'fc176230-fdd5-4336-bccc-94365d817720',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="services-intro-section" data-layout-spec="שירותים-intro">
+  <div class="services-intro-background">
+    <img data-placeholder="services-intro-image-1" data-context="Professional painting and construction work in progress - close-up of a painter's hand holding a high-quality brush applying smooth paint to a pristine wall surface, showing precision and attention to detail, sharp focus on the brush bristles and paint texture, modern construction site setting, professional lighting emphasizing craftsmanship" width="1200" height="600" src="/assets/site-services-intro-image-1.webp" alt="עבודת צביעה מקצועית עם דיוק ופרטים">
+    <div class="services-intro-overlay"></div>
+  </div>
+  
+  <div class="services-intro-container">
+    <div class="services-intro-content">
+      <h1>שירותים שנבנו לתוצאות מדויקות</h1>
+      <p class="services-intro-lead">אנחנו מאמינים שהכנה נכונה היא המפתח לביצוע נקי ומושלם בכל פרויקט.</p>
+      
+      <div class="services-intro-highlights">
+        <div class="services-intro-highlight-item">
+          <h3>שליטה בהכנת משטחים</h3>
+          <p>כל פרויקט מתחיל בהכנה קפדנית של המשטח - ליטוש, איטום וטיפול בפגמים לפני מריחת הצבע הראשונה.</p>
+        </div>
+        
+        <div class="services-intro-highlight-item">
+          <h3>גימור חד ושליטה בפרטים</h3>
+          <p>עבודה עם כלים מקצועיים ותשומת לב לכל פינה - קווים ישרים, משטחים חלקים ותוצאה שנשארת לאורך זמן.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="services-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="services-intro-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#18B7E8;stop-opacity:0.6"></stop>
+          <stop offset="50%" style="stop-color:#18B7E8;stop-opacity:0.9"></stop>
+          <stop offset="100%" style="stop-color:#18B7E8;stop-opacity:0.6"></stop>
+        </linearGradient>
+      </defs>
+      
+      <path d="M0,80 L0,50 L100,50 L100,40 L200,40 L200,35 L300,35 L300,30 L400,30 L400,35 L500,35 L500,40 L600,40 L600,35 L700,35 L700,30 L800,30 L800,35 L900,35 L900,40 L1000,40 L1000,45 L1100,45 L1100,50 L1200,50 L1200,80 Z" fill="var(--bg-light)"></path>
+      
+      <path d="M0,50 L100,50 L100,40 L200,40 L200,35 L300,35 L300,30 L400,30 L400,35 L500,35 L500,40 L600,40 L600,35 L700,35 L700,30 L800,30 L800,35 L900,35 L900,40 L1000,40 L1000,45 L1100,45 L1100,50 L1200,50" stroke="url(#services-intro-glow)" stroke-width="2" fill="none"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-capabilities-section" data-layout-spec="שירותים-capabilities">
+  <div class="services-capabilities-container">
+    <div class="services-capabilities-header">
+      <h2>מה אנחנו מטפלים בו מקצה לקצה</h2>
+      <p>התמחות באמינות וביצוע מסודר. כל פרויקט מתבצע בקפדנות ובמקצועיות גבוהה.</p>
+    </div>
+    
+    <div class="services-capabilities-grid">
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="6" width="36" height="36" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <line x1="6" y1="16" x2="42" y2="16" stroke="currentColor" stroke-width="2"></line>
+            <line x1="6" y1="26" x2="42" y2="26" stroke="currentColor" stroke-width="2"></line>
+            <line x1="6" y1="36" x2="42" y2="36" stroke="currentColor" stroke-width="2"></line>
+          </svg>
+        </div>
+        <h3>קירות ותקרות פנימיות</h3>
+        <p>צביעה מקצועית של קירות ותקרות פנימיות עם גימור חלק ואחיד. מתאים לכל סוגי המשטחים.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">אבק מינימלי</span>
+          <span class="services-capability-tag">ייבוש מהיר</span>
+        </div>
+      </div>
+
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 24L24 8L40 24L24 40L8 24Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
+            <path d="M24 8V40" stroke="currentColor" stroke-width="2"></path>
+            <path d="M8 24H40" stroke="currentColor" stroke-width="2"></path>
+          </svg>
+        </div>
+        <h3>חזיתות חיצוניות</h3>
+        <p>צביעת חזיתות עמידה בפני מזג אויר קשה. הגנה מקסימלית מפני שמש, גשם ולחות.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">עמידות גבוהה</span>
+          <span class="services-capability-tag">הגנת UV</span>
+        </div>
+      </div>
+
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 24C8 24 12 16 24 16C36 16 40 24 40 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M8 32C8 32 12 24 24 24C36 24 40 32 40 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <circle cx="16" cy="20" r="2" fill="currentColor"></circle>
+            <circle cx="32" cy="28" r="2" fill="currentColor"></circle>
+          </svg>
+        </div>
+        <h3>תיקון סדקים ושכבת החלקה</h3>
+        <p>טיפול מקצועי בסדקים וליקויים בקירות. שכבת החלקה מושלמת לגימור איכוטי.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">גימור חלק</span>
+          <span class="services-capability-tag">עמידות לאורך זמן</span>
+        </div>
+      </div>
+
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="12" width="32" height="24" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <path d="M12 20L20 28L36 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M8 20C8 20 10 16 14 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3>איטום כתמי לחות</h3>
+        <p>איטום יעיל של כתמי לחות וטיפול בבעיות רטיבות. מניעת חזרת הבעיה לטווח ארוך.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">איטום מלא</span>
+          <span class="services-capability-tag">פתרון לטווח ארוך</span>
+        </div>
+      </div>
+
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"></circle>
+            <circle cx="24" cy="24" r="10" stroke="currentColor" stroke-width="2"></circle>
+            <circle cx="24" cy="24" r="4" fill="currentColor"></circle>
+            <line x1="24" y1="8" x2="24" y2="12" stroke="currentColor" stroke-width="2"></line>
+            <line x1="24" y1="36" x2="24" y2="40" stroke="currentColor" stroke-width="2"></line>
+            <line x1="8" y1="24" x2="12" y2="24" stroke="currentColor" stroke-width="2"></line>
+            <line x1="36" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"></line>
+          </svg>
+        </div>
+        <h3>גימורים דקורטיביים מיוחדים</h3>
+        <p>טכניקות צביעה מתקדמות וגימורים דקורטיביים ייחודיים. יצירת אווירה מיוחדת בכל חלל.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">עיצוב ייחודי</span>
+          <span class="services-capability-tag">ביצוע מדויק</span>
+        </div>
+      </div>
+
+      <div class="services-capability-card">
+        <div class="services-capability-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="8" width="28" height="32" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <rect x="14" y="14" width="8" height="10" rx="1" stroke="currentColor" stroke-width="2"></rect>
+            <rect x="26" y="14" width="8" height="10" rx="1" stroke="currentColor" stroke-width="2"></rect>
+            <line x1="14" y1="30" x2="34" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <h3>חידוש פרזול ודלתות</h3>
+        <p>צביעה מקצועית של דלתות, חלונות ופרזול. החזרת מראה חדש למסגרות ישנות.</p>
+        <div class="services-capability-tags">
+          <span class="services-capability-tag">גימור מושלם</span>
+          <span class="services-capability-tag">עמידות גבוהה</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="services-capabilities-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="capabilities-divider-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:0.6"></stop>
+          <stop offset="50%" style="stop-color:#00D4FF;stop-opacity:0.8"></stop>
+          <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:0.6"></stop>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1200" height="2" fill="url(#capabilities-divider-gradient)"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="services-packages-section" data-layout-spec="שירותים-packages">
+  <div class="services-packages-container">
+    <div class="services-packages-header">
+      <h2>היקפים ברורים, תוצאות צפויות</h2>
+      <p>שקיפות מלאה בהיקף העבודה ולוח הזמנים – כך אתם יודעים בדיוק מה לצפות.</p>
+    </div>
+
+    <div class="services-packages-grid">
+      <!-- Package 1: Refresh -->
+      <div class="services-package-card">
+        <h3>רענון</h3>
+        <p class="services-package-audience">מושלם לדירות מושכרות או חדרים בודדים הזקוקים לעדכון מהיר.</p>
+        
+        <div class="services-package-includes">
+          <p class="services-package-item">ניקוי וסילוק כתמים קלים מהקירות</p>
+          <p class="services-package-item">צביעת גימור אחת על משטחים מוכנים</p>
+          <p class="services-package-item">טיפול בפינות ושוליים</p>
+          <p class="services-package-item">ניקוי מקצועי בסיום העבודה</p>
+        </div>
+
+        <p class="services-package-timeline"><strong>משך זמן טיפוסי:</strong> 1–2 ימים</p>
+        <p class="services-package-pricing">תמחור מבוסס היקף – הערכה במקום לקבלת הצעת מחיר מדויקת.</p>
+      </div>
+
+      <!-- Package 2: Full Prep + Repaint (Emphasized) -->
+      <div class="services-package-card services-package-emphasized">
+        <h3>הכנה מלאה וצביעה מחדש</h3>
+        <p class="services-package-audience">אידיאלי לבתים שעוברים שיפוץ או דירות הדורשות טיפול יסודי.</p>
+        
+        <div class="services-package-includes">
+          <p class="services-package-item">שיוף וליטוש משטחים קיימים</p>
+          <p class="services-package-item">תיקון סדקים ופגמים בגבס</p>
+          <p class="services-package-item">יישום שכבת יסוד איכותית</p>
+          <p class="services-package-item">2–3 שכבות צבע גימור</p>
+          <p class="services-package-item">הגנה על ריהוט ורצפות במהלך העבודה</p>
+        </div>
+
+        <p class="services-package-timeline"><strong>משך זמן טיפוסי:</strong> 3–5 ימים</p>
+        <p class="services-package-pricing">תמחור מבוסס היקף – הערכה במקום לקבלת הצעת מחיר מדויקת.</p>
+      </div>
+
+      <!-- Package 3: Premium Finish Detail -->
+      <div class="services-package-card">
+        <h3>גימור פרימיום מפורט</h3>
+        <p class="services-package-audience">לפרויקטים יוקרתיים המחייבים מושלמות ויחס לפרטים הקטנים.</p>
+        
+        <div class="services-package-includes">
+          <p class="services-package-item">הכנת משטח ברמה מקצועית עם תיקוני גבס מתקדמים</p>
+          <p class="services-package-item">שכבות יסוד ובידוד מתקדמות</p>
+          <p class="services-package-item">3–4 שכבות צבע גימור איכותי</p>
+          <p class="services-package-item">עבודת פרטים ידנית בפינות ושוליים</p>
+          <p class="services-package-item">בדיקת איכות סופית ותיקונים עד לשביעות רצון מלאה</p>
+        </div>
+
+        <p class="services-package-timeline"><strong>משך זמן טיפוסי:</strong> 5–8 ימים</p>
+        <p class="services-package-pricing">תמחור מבוסס היקף – הערכה במקום לקבלת הצעת מחיר מדויקת.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Divider: Bold gold line breaking into dashes -->
+  <div class="services-packages-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Solid line from left to ~70%, then dashes to right -->
+      <line x1="0" y1="30" x2="840" y2="30" stroke="#FFB000" stroke-width="3"></line>
+      <line x1="860" y1="30" x2="900" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+      <line x1="920" y1="30" x2="960" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+      <line x1="980" y1="30" x2="1020" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+      <line x1="1040" y1="30" x2="1080" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+      <line x1="1100" y1="30" x2="1140" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+      <line x1="1160" y1="30" x2="1200" y2="30" stroke="#FFB000" stroke-width="3" stroke-dasharray="8 12"></line>
+    </svg>
+  </div>
+</section>
+
+<section class="services-q-and-a-section" data-layout-spec="שירותים-q-and-a">
+  <div class="services-q-and-a-container">
+    <div class="services-q-and-a-header">
+      <h2>תשובות מעשיות לפני שמתחילים</h2>
+      <p>יש לכם שאלה נוספת? צרו קשר ונשמח לספק פרטים מדויקים לפרויקט שלכם.</p>
+    </div>
+    <div class="services-q-and-a-grid">
+      <div class="services-q-and-a-item">
+        <h3>כמה זמן לוקח פרויקט צביעה ממוצע?</h3>
+        <p>פרויקט דירה סטנדרטית (3-4 חדרים) לוקח בדרך כלל 3-5 ימי עבודה, תלוי במצב הקירות ובסוג הגימור. נתאם איתכם לוח זמנים מדויק עוד לפני תחילת העבודה.</p>
+      </div>
+      <div class="services-q-and-a-item">
+        <h3>האם יש ריח חזק? כמה זמן לייבוש?</h3>
+        <p>אנחנו עובדים עם צבעים איכותיים בעלי ריח מינימלי. זמן ייבוש ראשוני הוא כ-2-4 שעות, וניתן לגעת בקיר לאחר 24 שעות. מומלץ לאוורר את החלל במהלך העבודה.</p>
+      </div>
+      <div class="services-q-and-a-item">
+        <h3>איך אתם שומרים על ניקיון במהלך העבודה?</h3>
+        <p>אנחנו מכסים רהיטים ורצפות בניילון מגן איכותי, משתמשים בסרטי הגנה למסגרות ולחלונות, ומנקים את האזור בסיום כל יום עבודה. הבית שלכם נשאר נקי ומסודר.</p>
+      </div>
+      <div class="services-q-and-a-item">
+        <h3>מה עם סדקים ופגמים בקירות?</h3>
+        <p>אנחנו מבצעים תיקוני טיח ושפכטל לפני הצביעה, כולל סגירת סדקים, החלקת משטחים ותיקון פגמים. הכנה נכונה היא המפתח לתוצאה מושלמת ועמידה לאורך זמן.</p>
+      </div>
+      <div class="services-q-and-a-item">
+        <h3>איזה סוג גימור לבחור – מט, סאטן או מבריק?</h3>
+        <p>גימור מט מסתיר פגמים ומתאים לסלון וחדרי שינה. סאטן עמיד יותר לניקוי ומומלץ למטבחים ומסדרונות. מבריק מתאים לדלתות ולחלונות. נייעץ לכם בהתאם לשימוש בכל חדר.</p>
+      </div>
+      <div class="services-q-and-a-item">
+        <h3>מה הלקוח צריך להכין מראש?</h3>
+        <p>רצוי לפנות רהיטים מהקירות (או לרכז במרכז החדר), להסיר תמונות ומדבקות, ולוודא גישה חופשית לכל החדרים. אנחנו נדאג לכל שאר ההכנות והציוד המקצועי.</p>
+      </div>
+    </div>
+  </div>
+  <div class="services-q-and-a-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 L0,35 Q50,28 100,32 T200,30 Q250,34 300,28 T400,32 Q450,30 500,34 T600,28 Q650,32 700,30 T800,34 Q850,28 900,32 T1000,30 Q1050,34 1100,28 T1200,32 L1200,60 Z" fill="var(--bg-dark)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-cta-section" data-layout-spec="שירותים-cta">
+  <div class="services-cta-container">
+    <div class="services-cta-content">
+      <h2 class="services-cta-title">ספרו לנו על המרחב שלכם ועל לוח הזמנים</h2>
+      <p class="services-cta-description">תקבלו הצעה ברורה עם היקף העבודה המדויק ולוח זמנים מפורט.</p>
+      <a href="/contact" class="btn-primary services-cta-button">התחילו שיחה</a>
+      <p class="services-cta-support">אנחנו חוזרים תוך 24 שעות. כדאי לציין: גודל השטח, מצב הקירות והגימור הרצוי – זה יעזור לנו להכין לכם הצעה מדויקת.</p>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" /><p class="footer-description">נגיעת צבע - המומחים שלכם לצבעים ובנייה. איכות ומקצועיות ללא פשרות.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-nav"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">מדיניות פרטיות</a><span class="separator">|</span><a href="/terms">תנאים והגבלות</a><span class="separator">|</span><a href="/accessibility">הצהרת נגישות</a></div><div class="footer-copyright"><p>© 2026 נגיעת צבע. כל הזכויות שמורות.</p></div><div class="footer-attribution"><a href="https://zappy5.com" target="_blank" class="zappy-attribution" rel="noopener noreferrer">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>

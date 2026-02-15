@@ -1,0 +1,704 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>נגיעת צבע | צבעי</title>
+  <meta name="description" content="בית - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta name="keywords" content="צבעי, חנות צבעים לשיפוצים ביתיים, צבעי קירות איכוtiים למקצוענים, איזה צבע לבחור לבית חדש">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="נגיעת צבע | צבעי">
+  <meta property="og:description" content="בית - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="נגיעת צבע | צבעי">
+  <meta name="twitter:description" content="בית - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'fc176230-fdd5-4336-bccc-94365d817720',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="home-hero-section" data-layout-spec="בית-hero" data-hero-type="fullscreen-scrim">
+  <div class="home-hero-bg-wrapper">
+    <img data-hero-bg="true" data-placeholder="home-hero-bg" data-context="Professional painting and construction finishing scene: A modern Israeli home interior mid-renovation showing freshly painted walls in clean white with cyan-tinted accent lighting, professional painting equipment (rollers, brushes, paint cans) neatly arranged, geometric patterns created by painter's tape on walls, dramatic side lighting creating strong shadows and highlights, ultra-modern minimalist aesthetic, shot from a cinematic low angle to emphasize professionalism and precision, high-end architectural photography style" class="home-hero-bg-image" width="1920" height="1080" src="/assets/site-home-hero-bg.webp" alt="נגיעת צבע - עבודות צביעה ובנייה מקצועיות">
+    <div class="home-hero-scrim" aria-hidden="true"></div>
+  </div>
+  
+  <div class="home-hero-content-wrapper">
+    <div class="home-hero-content">
+      <h1 class="home-hero-title">צביעה מקצועית<br>שמשנה את הבית שלך</h1>
+      <div class="home-hero-separator" aria-hidden="true"></div>
+      <h3 class="home-hero-subtitle">דיוק, ניקיון ותוצאות מודרניות שנשארות לשנים</h3>
+      <div class="home-hero-cta-row">
+        <a href="/contact" class="home-hero-btn home-hero-btn-primary">קבלו הצעת מחיר</a>
+        <a href="/projects" class="home-hero-btn home-hero-btn-secondary">צפו בפרויקטים</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="home-hero-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="home-hero-paint-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1"></stop>
+          <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1"></stop>
+        </linearGradient>
+        <filter id="home-hero-paint-glow">
+          <feGaussianBlur stdDeviation="4" result="coloredBlur"></feGaussianBlur>
+          <feMerge>
+            <feMergeNode in="coloredBlur"></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="M0,100 L0,50 Q100,45 200,52 T400,48 Q500,52 600,45 T800,50 Q900,48 1000,52 T1200,50 L1200,100 Z" fill="var(--bg-light)"></path>
+      <path d="M0,50 Q100,45 200,52 T400,48 Q500,52 600,45 T800,50 Q900,48 1000,52 T1200,50" fill="none" stroke="url(#home-hero-paint-gradient)" stroke-width="3" filter="url(#home-hero-paint-glow)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="home-services-section" data-layout-spec="בית-services">
+  <div class="home-services-container">
+    <div class="home-services-intro">
+      <h2>שירותים שמספקים גימור נקי ומודרני</h2>
+      <p>אנחנו מתמחים בהכנה מדויקת, קווים חדים וחומרים עמידים שמבטיחים תוצאה מושלמת לאורך זמן.</p>
+    </div>
+    
+    <div class="home-services-grid">
+      <article class="home-service-card">
+        <div class="home-service-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 40V16L24 8L40 16V40H28V28H20V40H8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M14 20H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M30 20H34" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3>צבעי פנים וגימור</h3>
+        <p>צביעה מקצועית של חללים פנימיים עם דגש על פרטים קטנים, גוונים מושלמים וגימור חלק ואחיד.</p>
+        <div class="home-service-tags">
+          <span class="home-service-tag">אפשרויות דלות ריח</span>
+          <span class="home-service-tag">קווי מיסוך נקיים</span>
+          <span class="home-service-tag">גימור מט/סאטן</span>
+        </div>
+      </article>
+      
+      <article class="home-service-card">
+        <div class="home-service-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="36" height="28" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <path d="M6 18H42" stroke="currentColor" stroke-width="2"></path>
+            <path d="M16 26L20 30L28 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>צבעי חוץ והגנה</h3>
+        <p>ציפויים חיצוניים עמידים בפני מזג אוויר, קרינת UV ולחות - שומרים על המבנה שלכם לאורך שנים.</p>
+        <div class="home-service-tags">
+          <span class="home-service-tag">עמידות UV מקסימלית</span>
+          <span class="home-service-tag">הגנה מפני לחות</span>
+          <span class="home-service-tag">גימור לכל משטח</span>
+        </div>
+      </article>
+      
+      <article class="home-service-card">
+        <div class="home-service-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 36L24 12L36 36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M18 28H30" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <circle cx="24" cy="8" r="2" fill="currentColor"></circle>
+          </svg>
+        </div>
+        <h3>תיקונים והכנת משטחים</h3>
+        <p>טיפול מקצועי בסדקים, חורים ואי-שוויונות - הכנה מושלמת לפני הצביעה לתוצאה ללא פשרות.</p>
+        <div class="home-service-tags">
+          <span class="home-service-tag">ביצוע מהיר</span>
+          <span class="home-service-tag">אבחון מדויק</span>
+          <span class="home-service-tag">גימור חלק</span>
+        </div>
+      </article>
+    </div>
+  </div>
+  
+  <div class="home-services-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gold-highlight-services" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#FFB000;stop-"></stop>
+          <stop offset="50%" style="stop-color:#FFB000;stop-opacity:0.6"></stop>
+          <stop offset="100%" style="stop-color:#FFB000;stop-"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,80 L0,40 L1200,10 L1200,80 Z" fill="var(--bg-dark)"></path>
+      <line x1="0" y1="40" x2="1200" y2="10" stroke="url(#gold-highlight-services)" stroke-width="2"></line>
+    </svg>
+  </div>
+</section>
+
+<section class="home-process-section" data-layout-spec="בית-process">
+  <div class="home-process-container">
+    <div class="home-process-header">
+      <h2>תהליך עבודה צפוי ומסודר</h2>
+      <p>אנחנו מתכננים מראש, מגנים על הסביבה ומבטיחים תוצאה עקבית שנשארת איתכם לשנים.</p>
+    </div>
+    
+    <div class="home-process-timeline">
+      <div class="home-process-timeline-line"></div>
+      
+      <div class="home-process-step">
+        <div class="home-process-step-marker"></div>
+        <div class="home-process-step-content">
+          <h3>סיור והתאמת צבעים</h3>
+          <p>מודדים את השטח, מזהים אתגרים ומציעים פלטת צבעים מותאמת אישית. זמן ברור: 1-2 ימי עבודה.</p>
+          <div class="home-process-step-tags">
+            <span class="home-process-tag">ייעוץ צבעים</span>
+            <span class="home-process-tag">מדידה מדויקת</span>
+            <span class="home-process-tag">הערכת זמנים</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="home-process-step">
+        <div class="home-process-step-marker"></div>
+        <div class="home-process-step-content">
+          <h3>הגנה והכנה</h3>
+          <p>מכסים רהיטים, מגנים על רצפות ומטפלים בכל פגם בקיר. השטח נשאר נקי ומוגן לאורך כל התהליך.</p>
+          <div class="home-process-step-tags">
+            <span class="home-process-tag">בקרת אבק</span>
+            <span class="home-process-tag">הגנה מלאה</span>
+            <span class="home-process-tag">ניקיון יומי</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="home-process-step">
+        <div class="home-process-step-marker"></div>
+        <div class="home-process-step-content">
+          <h3>יישום וגימור</h3>
+          <p>מריחות אחידות, שכבות מדויקות וזמני ייבוש מבוקרים. כל שלב מתועד לבקרת איכות מקסימלית.</p>
+          <div class="home-process-step-tags">
+            <span class="home-process-tag">זמן ייבוש</span>
+            <span class="home-process-tag">שכבות מקצועיות</span>
+            <span class="home-process-tag">עמידות לשנים</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="home-process-step">
+        <div class="home-process-step-marker"></div>
+        <div class="home-process-step-content">
+          <h3>סיור סיום ותיקונים</h3>
+          <p>עוברים יחד על התוצאה, מטפלים בכל פרט קטן ומוודאים שאתם מרוצים לחלוטין. אחריות מלאה על העבודה.</p>
+          <div class="home-process-step-tags">
+            <span class="home-process-tag">בדיקה סופית</span>
+            <span class="home-process-tag">תיקונים מיידיים</span>
+            <span class="home-process-tag">אחריות מלאה</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="home-process-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="processGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#111317;stop-opacity:1"></stop>
+          <stop offset="100%" style="stop-color:#111317;stop-"></stop>
+        </linearGradient>
+        <pattern id="microGrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,212,255,0.08)" stroke-width="0.5"></path>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="1200" height="200" fill="url(#processGradient)"></rect>
+      <rect x="0" y="160" width="1200" height="40" fill="url(#microGrid)" opacity="0.6"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="home-portfolio-section" data-layout-spec="בית-portfolio">
+  <div class="home-portfolio-container">
+    <div class="home-portfolio-intro">
+      <h2>עבודות אחרונות בדיוק מושלם</h2>
+      <p>כל פרויקט מבוצע באיכות גבוהה, עם תשומת לב לפרטים הקטנים ביותר ומסירות לגימור מושלם.</p>
+    </div>
+
+    <div class="home-portfolio-grid">
+      <div class="home-portfolio-tile">
+        <img data-placeholder="home-portfolio-image-1" data-context="Modern interior room with freshly painted walls in elegant matte finish, showing professional painting work for נגיעת צבע, bright natural lighting, clean lines, contemporary Israeli home" width="600" height="450" src="/assets/site-home-portfolio-image-1.webp" alt="עבודת צבע פנים מודרנית">
+        <div class="home-portfolio-overlay">
+          <h3>דירה בתל אביב</h3>
+          <p>שדרוג מלא עם גימור מאט איכותי ותוצאה נקייה ומרשימה</p>
+        </div>
+        <div class="home-portfolio-specs">
+          <span class="home-portfolio-spec-tag">120 מ"ר</span>
+          <span class="home-portfolio-spec-tag">גימור מאט</span>
+          <span class="home-portfolio-spec-tag">3 ימים</span>
+        </div>
+      </div>
+
+      <div class="home-portfolio-tile home-portfolio-tile-split">
+        <div class="home-portfolio-split-container">
+          <div class="home-portfolio-split-half home-portfolio-split-before">
+            <img data-placeholder="home-portfolio-image-2a" data-context="Before photo: old worn wall with peeling paint and damage, needs renovation, Israeli apartment wall requiring professional painting by נגיעת צבע" width="300" height="450" src="/assets/site-home-portfolio-image-2a.webp" alt="לפני - קיר ישן">
+            <span class="home-portfolio-split-label">לפני</span>
+          </div>
+          <div class="home-portfolio-split-half home-portfolio-split-after">
+            <img data-placeholder="home-portfolio-image-2b" data-context="After photo: same wall beautifully repainted with smooth finish, professional painting work by נגיעת צבע, clean modern appearance, Israeli home renovation" width="300" height="450" src="/assets/site-home-portfolio-image-2b.webp" alt="אחרי - קיר מחודש">
+            <span class="home-portfolio-split-label">אחרי</span>
+          </div>
+        </div>
+        <div class="home-portfolio-overlay">
+          <h3>שיקום קיר חיצוני</h3>
+          <p>תיקון נזקים והחזרת המשטח למצב חדש לחלוטין</p>
+        </div>
+        <div class="home-portfolio-specs">
+          <span class="home-portfolio-spec-tag">45 מ"ר</span>
+          <span class="home-portfolio-spec-tag">הכנה מקצועית</span>
+          <span class="home-portfolio-spec-tag">2 ימים</span>
+        </div>
+      </div>
+
+      <div class="home-portfolio-tile">
+        <img data-placeholder="home-portfolio-image-3" data-context="Exterior building facade freshly painted, professional exterior painting work by נגיעת צבע, Israeli residential building, clean finish, blue sky, modern architecture" width="600" height="450" src="/assets/site-home-portfolio-image-3.webp" alt="עבודת צבע חוץ מקצועית">
+        <div class="home-portfolio-overlay">
+          <h3>חזית בניין ברמת גן</h3>
+          <p>צביעת חוץ מלאה עם הגנה מפני מזג אוויר ועמידות לאורך שנים</p>
+        </div>
+        <div class="home-portfolio-specs">
+          <span class="home-portfolio-spec-tag">280 מ"ר</span>
+          <span class="home-portfolio-spec-tag">צבע חוץ</span>
+          <span class="home-portfolio-spec-tag">5 ימים</span>
+        </div>
+      </div>
+
+      <div class="home-portfolio-tile">
+        <img data-placeholder="home-portfolio-image-4" data-context="Stylish accent wall with specialty finish technique, feature wall in modern Israeli home, professional decorative painting by נגיעת צבע, artistic texture, dramatic lighting" width="600" height="450" src="/assets/site-home-portfolio-image-4.webp" alt="קיר מבטא בגימור מיוחד">
+        <div class="home-portfolio-overlay">
+          <h3>קיר מבטא בסלון</h3>
+          <p>טכניקת גימור מיוחדת שהופכת את הקיר למוקד חזותי מרשים</p>
+        </div>
+        <div class="home-portfolio-specs">
+          <span class="home-portfolio-spec-tag">18 מ"ר</span>
+          <span class="home-portfolio-spec-tag">גימור מיוחד</span>
+          <span class="home-portfolio-spec-tag">1 יום</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-portfolio-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="portfolio-glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
+          <feMerge>
+            <feMergeNode in="coloredBlur"></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="M0,100 L0,45 Q30,42 60,48 T120,45 Q150,50 180,42 T240,48 Q270,45 300,50 T360,42 Q390,48 420,45 T480,50 Q510,42 540,48 T600,45 Q630,50 660,42 T720,48 Q750,45 780,50 T840,42 Q870,48 900,45 T960,50 Q990,42 1020,48 T1080,45 Q1110,50 1140,42 T1200,48 L1200,100 Z" fill="#0B0C0F" stroke="#00D4FF" stroke-width="0.5" filter="url(#portfolio-glow)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="home-cta-section" data-layout-spec="בית-cta">
+  <div class="home-cta-container">
+    <div class="home-cta-content">
+      <h2 class="home-cta-headline">מוכנים לגימור מודרני ונקי?</h2>
+      <p class="home-cta-description">קבלו הצעת מחיר מפורטת ולוח זמנים ברור – פשוט ומהיר.</p>
+      <a href="/contact" class="home-cta-button">
+        <span>צרו קשר</span>
+        <svg class="home-cta-button-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" data-element-type="icon" data-icon-type="svg">
+          <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+    
+    <div class="home-cta-trust-row">
+      <div class="home-cta-trust-item">
+        <div class="home-cta-trust-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" data-element-type="icon" data-icon-type="svg">
+            <path d="M16 4L4 10V16C4 22.6274 8.68629 28 16 28C23.3137 28 28 22.6274 28 16V10L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M12 16L15 19L21 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3 class="home-cta-trust-title">אתר נקי ומסודר</h3>
+        <p class="home-cta-trust-text">שומרים על סביבת עבודה נקייה ומאורגנת לאורך כל הפרויקט.</p>
+      </div>
+      
+      <div class="home-cta-trust-item">
+        <div class="home-cta-trust-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" data-element-type="icon" data-icon-type="svg">
+            <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M16 8V16L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3 class="home-cta-trust-title">קצב עבודה מדויק</h3>
+        <p class="home-cta-trust-text">עומדים בלוחות זמנים ומתחייבים לסיום בזמן.</p>
+      </div>
+      
+      <div class="home-cta-trust-item">
+        <div class="home-cta-trust-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" data-element-type="icon" data-icon-type="svg">
+            <path d="M8 16L4 12L8 8M24 16L28 12L24 8M12 24L20 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3 class="home-cta-trust-title">גימור עמיד וניתן לשטיפה</h3>
+        <p class="home-cta-trust-text">צבעים איכותיים שמחזיקים מעמד לאורך שנים.</p>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" /><p class="footer-description">נגיעת צבע - המומחים שלכם לצבעים ובנייה. איכות ומקצועיות ללא פשרות.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-nav"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">מדיניות פרטיות</a><span class="separator">|</span><a href="/terms">תנאים והגבלות</a><span class="separator">|</span><a href="/accessibility">הצהרת נגישות</a></div><div class="footer-copyright"><p>© 2026 נגיעת צבע. כל הזכויות שמורות.</p></div><div class="footer-attribution"><a href="https://zappy5.com" target="_blank" class="zappy-attribution" rel="noopener noreferrer">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>

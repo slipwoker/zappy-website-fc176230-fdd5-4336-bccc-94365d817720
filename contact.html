@@ -1,0 +1,504 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>צור קשר - נגיעת צבע</title>
+  <meta name="description" content="צור קשר - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta name="keywords" content="צבעי, חנות צבעים לשיפוצים ביתיים, צבעי קירות איכוtiים למקצוענים, איזה צבע לבחור לבית חדש">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="צור קשר - נגיעת צבע">
+  <meta property="og:description" content="צור קשר - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="צור קשר - נגיעת צבע">
+  <meta name="twitter:description" content="צור קשר - נגיעת צבע provides professional צבעים ובנייה services. Specializing in צבעי.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'fc176230-fdd5-4336-bccc-94365d817720',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="contact-details-section" data-layout-spec="צור קשר-contact-details">
+  <div class="contact-details-container">
+    <div class="contact-details-header">
+      <h1>בואו נגדיר את הפרויקט שלכם</h1>
+      <p class="contact-details-intro">כדי לתת לכם הצעת מחיר מדויקת, נשמח לדעת על מספר החדרים או השטח, מצב הקירות הנוכחי, רמת הגימור הרצויה, ולוח הזמנים המתוכנן.</p>
+    </div>
+    
+    <div class="contact-details-grid">
+      <div class="contact-info-card">
+        <div class="contact-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 16.92V19.92C22.0011 20.1985 21.9441 20.4742 21.8325 20.7293C21.7209 20.9845 21.5573 21.2136 21.3521 21.4019C21.1468 21.5901 20.9046 21.7335 20.6407 21.8227C20.3769 21.9119 20.0974 21.9451 19.82 21.92C16.7428 21.5856 13.787 20.5341 11.19 18.85C8.77382 17.3147 6.72533 15.2662 5.18999 12.85C3.49997 10.2412 2.44824 7.27099 2.11999 4.18C2.095 3.90347 2.12787 3.62476 2.21649 3.36162C2.30512 3.09849 2.44756 2.85669 2.63476 2.65162C2.82196 2.44655 3.0498 2.28271 3.30379 2.17052C3.55777 2.05833 3.83233 2.00026 4.10999 2H7.10999C7.5953 1.99522 8.06579 2.16708 8.43376 2.48353C8.80173 2.79999 9.04207 3.23945 9.10999 3.72C9.23662 4.68007 9.47144 5.62273 9.80999 6.53C9.94454 6.88792 9.97366 7.27691 9.8939 7.65088C9.81415 8.02485 9.62886 8.36811 9.35999 8.64L8.08999 9.91C9.51355 12.4135 11.5864 14.4864 14.09 15.91L15.36 14.64C15.6319 14.3711 15.9751 14.1858 16.3491 14.1061C16.7231 14.0263 17.1121 14.0555 17.47 14.19C18.3773 14.5286 19.3199 14.7634 20.28 14.89C20.7658 14.9585 21.2094 15.2032 21.5265 15.5775C21.8437 15.9518 22.0122 16.4296 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>טלפון</h3>
+        <p>זמינים לשיחה בימי עבודה<br>בין השעות 08:00-18:00</p>
+        <a href="tel:[business_phone]" class="contact-link">[business_phone]</a>
+      </div>
+
+      <div class="contact-info-card">
+        <div class="contact-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>דוא״ל</h3>
+        <p>שלחו לנו פרטים על הפרויקט<br>ונחזור תוך 24 שעות</p>
+        <a href="mailto:[business_email]" class="contact-link">[business_email]</a>
+      </div>
+
+      <div class="contact-info-card">
+        <div class="contact-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>אזור שירות</h3>
+        <p>מספקים שירות באזור המרכז<br>והסביבה הקרובה</p>
+        <p class="contact-link">[business_address]</p>
+      </div>
+
+      <div class="contact-info-card">
+        <div class="contact-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>זמן תגובה</h3>
+        <p>מחויבים לחזור אליכם תוך<br>24 שעות בימי עבודה</p>
+        <p class="contact-link">תגובה מהירה ומקצועית</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="contact-details-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="contact-divider-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:rgba(24,183,232,0);stop-opacity:1"></stop>
+          <stop offset="50%" style="stop-color:rgba(24,183,232,0.6);stop-opacity:1"></stop>
+          <stop offset="100%" style="stop-color:rgba(24,183,232,0);stop-opacity:1"></stop>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1200" height="2" fill="url(#contact-divider-gradient)"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-form-section" data-layout-spec="צור קשר-form">
+  <div class="contact-form-container">
+    <div class="contact-form-header">
+      <h2>שלחו את הפרטים הבסיסיים, ונחזור אליכם עם השלבים הבאים</h2>
+      <p>מספיק לספר לנו בקצרה מה אתם מחפשים – נדאג לכל השאר.</p>
+    </div>
+
+    <form class="contact-form">
+      <div class="form-group">
+        <label for="contact-name">שם מלא</label>
+        <input type="text" id="contact-name" name="name" required="">
+      </div>
+
+      <div class="form-group">
+        <label for="contact-email">דוא"ל</label>
+        <input type="email" id="contact-email" name="email" required="">
+      </div>
+
+      <div class="form-group">
+        <label for="contact-phone">טלפון</label>
+        <input type="tel" id="contact-phone" name="phone" required="">
+      </div>
+
+      <div class="form-group">
+        <label for="contact-message">הודעה</label>
+        <textarea id="contact-message" name="message" rows="6" required=""></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">שלח הודעה</button>
+    </form>
+
+    <div class="form-privacy">
+      <p>הפרטים שלכם נשמרים אצלנו בסודיות מלאה ולא יועברו לצד שלישי. אנחנו כאן רק כדי לעזור לכם.</p>
+    </div>
+  </div>
+
+  <div class="contact-form-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 L0,30 L1200,0 L1200,60 Z" fill="var(--bg-dark)"></path>
+      <path d="M0,30 L1200,0" stroke="#7C3AED" stroke-width="1" fill="none" opacity="0.6"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-map-section" data-layout-spec="צור קשר-map">
+  <div class="contact-map-container">
+    <div class="contact-map-header">
+      <h2>אזורי השירות שלנו</h2>
+      <p>אנחנו מספקים שירותי צביעה ובנייה איכותיים באזור המרכז והסביבה. כתובת מדויקת תידרש רק לאחר יצירת קשר ראשוני.</p>
+    </div>
+
+    <div class="contact-map-image-wrapper">
+      <img data-placeholder="contact-map-image-1" data-context="Dark-themed stylized map of central Israel showing a highlighted coverage region in cyan/neon blue, minimal clutter, modern cartographic style with dark gray background, glowing cyan boundary lines marking service area, subtle street grid, professional contractor service coverage map" width="1000" height="600" src="/assets/site-contact-map-image-1.webp" alt="מפת אזורי השירות של נגיעת צבע">
+    </div>
+
+    <div class="contact-map-footer">
+      <p>אנחנו משרתים לקוחות ברדיוס של עד 50 ק״מ מהמרכז. זמינות ותיאום מועדים מותאמים אישית לצרכי הלקוח – צרו קשר לקביעת פגישת ייעוץ ללא התחייבות.</p>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/business-logo.webp" alt="נגיעת צבע" class="logo" /><p class="footer-description">נגיעת צבע - המומחים שלכם לצבעים ובנייה. איכות ומקצועיות ללא פשרות.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-nav"><li><a href="/services">שירותים</a></li><li><a href="/projects">פרויקטים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">מדיניות פרטיות</a><span class="separator">|</span><a href="/terms">תנאים והגבלות</a><span class="separator">|</span><a href="/accessibility">הצהרת נגישות</a></div><div class="footer-copyright"><p>© 2026 נגיעת צבע. כל הזכויות שמורות.</p></div><div class="footer-attribution"><a href="https://zappy5.com" target="_blank" class="zappy-attribution" rel="noopener noreferrer">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>
